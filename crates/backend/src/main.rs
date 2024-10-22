@@ -1,4 +1,11 @@
+use std::fs;
 use std::path::Path;
+
+use actix_web::{web, App, HttpServer, middleware};
+use actix_web::middleware::DefaultHeaders;
+use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+
+
 
 use actix_cors::Cors;
 use clap::Parser;
@@ -46,6 +53,14 @@ async fn main() -> std::io::Result<()> {
     async fn health() -> HttpResponse {
         HttpResponse::Ok().finish()
     }
+    // Setup OpenSSL
+    let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+    builder
+        .set_private_key_file("/etc/letsencrypt/live/solangpg.ddnsfree.com/privkey.pem", SslFiletype::PEM)
+        .unwrap();
+    builder
+        .set_certificate_chain_file("/etc/letsencrypt/live/solangpg.ddnsfree.com/fullchain.pem")
+        .unwrap();
 
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
@@ -91,7 +106,7 @@ async fn main() -> std::io::Result<()> {
 
         app
     })
-    .bind(format!("{}:{}", &host, &port))?
+    .bind_openssl(format!("{}:443", &host), builder)?
     .run()
     .await?;
 
