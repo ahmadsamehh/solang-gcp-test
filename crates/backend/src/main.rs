@@ -1,5 +1,6 @@
 use std::path::Path;
 
+use actix_cors::Cors;
 use clap::Parser;
 
 use actix_files as fs;
@@ -50,7 +51,17 @@ async fn main() -> std::io::Result<()> {
         let opts: Opts = opts.clone();
         let frontend_folder = opts.frontend_folder.clone();
 
+        //ahmads edit
+        // Configure CORS
+        let cors = Cors::default()
+            .allowed_origin("http://solangpg.ddnsfree.com") // Replace with your frontend's URL
+            .allowed_methods(vec!["GET", "POST", "OPTIONS"])
+            .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
+            .allow_any_header()
+            .supports_credentials();
+
         let mut app = App::new()
+            .wrap(cors) // Apply CORS here
             .service(web::resource("/health").to(health))
             // Enable GZIP compression
             .wrap(middleware::Compress::default())
