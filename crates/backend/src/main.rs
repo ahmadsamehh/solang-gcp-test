@@ -1,8 +1,7 @@
 
 use std::path::Path;
 
-use actix_web::{web, App, HttpServer, middleware};
-use actix_web::middleware::DefaultHeaders;
+use actix_web::App;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 
@@ -15,7 +14,7 @@ use actix_web::{
     middleware::{self, DefaultHeaders},
     web,
     web::post,
-    App, HttpResponse, HttpServer, Result,
+    HttpResponse, HttpServer, Result,
 };
 
 // use std::path::Path;
