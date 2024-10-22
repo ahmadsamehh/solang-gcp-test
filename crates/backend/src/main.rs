@@ -1,22 +1,51 @@
-use std::fs;
+// use std::fs;
+// use std::path::Path;
+
+// use actix_web::{web, App, HttpServer, middleware};
+// use actix_web::middleware::DefaultHeaders;
+// use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+
+
+
+// use actix_cors::Cors;
+// use clap::Parser;
+
+// use actix_files as fs;
+// use actix_web::{
+//     middleware::{self, DefaultHeaders},
+//     web,
+//     web::post,
+//     App, HttpResponse, HttpServer, Result,
+// };
+
 use std::path::Path;
 
-use actix_web::{web, App, HttpServer, middleware};
-use actix_web::middleware::DefaultHeaders;
+use actix_web::{web, App, HttpServer, middleware::DefaultHeaders};
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-
-
 
 use actix_cors::Cors;
 use clap::Parser;
 
-use actix_files as fs;
-use actix_web::{
-    middleware::{self, DefaultHeaders},
-    web,
-    web::post,
-    App, HttpResponse, HttpServer, Result,
-};
+use actix_files::{Files, NamedFile};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 use backend::{route_compile, Opts};
 
@@ -24,15 +53,30 @@ pub struct FrontendState {
     pub frontend_folder: String,
 }
 
-pub fn route_frontend(at: &str, dir: &str) -> actix_files::Files {
-    fs::Files::new(at, dir).index_file("index.html")
+// pub fn route_frontend(at: &str, dir: &str) -> actix_files::Files {
+//     fs::Files::new(at, dir).index_file("index.html")
+// }
+
+// pub async fn route_frontend_version(data: web::Data<FrontendState>) -> Result<actix_files::NamedFile> {
+//     Ok(fs::NamedFile::open(
+//         Path::new(&data.frontend_folder).join("index.html"),
+//     )?)
+// }
+
+
+pub fn route_frontend(at: &str, dir: &str) -> Files {
+    Files::new(at, dir).index_file("index.html")
 }
 
-pub async fn route_frontend_version(data: web::Data<FrontendState>) -> Result<actix_files::NamedFile> {
-    Ok(fs::NamedFile::open(
+pub async fn route_frontend_version(data: web::Data<FrontendState>) -> Result<NamedFile> {
+    Ok(NamedFile::open(
         Path::new(&data.frontend_folder).join("index.html"),
     )?)
 }
+
+
+
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -106,7 +150,7 @@ async fn main() -> std::io::Result<()> {
 
         app
     })
-    .bind_openssl(format!("{}:443", &host), builder)?
+    .bind(format!("{}:443", &host))?
     .run()
     .await?;
 
