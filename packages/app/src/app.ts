@@ -166,7 +166,7 @@ export default class App {
       (async () => {
         const result = await compileRequest(
           // FIXME: This should be configurable
-          { compileUrl: "http://solangpg.ddnsfree.com:9000/compile" },
+          { compileUrl: "https://solangpg.ddnsfree.com:9000/compile" },
           { source: code }
         );
 
