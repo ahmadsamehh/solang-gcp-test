@@ -149,7 +149,7 @@ async fn main() -> std::io::Result<()> {
 
         app
     })
-    .bind(format!("{}:443", &host))?
+    .bind(format!("{}:{}", &host, &port))?
     .run()
     .await?;
 
