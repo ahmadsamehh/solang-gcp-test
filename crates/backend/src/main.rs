@@ -1,10 +1,7 @@
-
 use std::path::Path;
 
 use actix_web::App;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-
-
 
 use actix_cors::Cors;
 use clap::Parser;
@@ -27,25 +24,6 @@ use actix_web::{
 
 // use actix_files::{Files, NamedFile};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 use backend::{route_compile, Opts};
 
 pub struct FrontendState {
@@ -62,7 +40,6 @@ pub async fn route_frontend_version(data: web::Data<FrontendState>) -> Result<ac
     )?)
 }
 
-
 // pub fn route_frontend(at: &str, dir: &str) -> Files {
 //     Files::new(at, dir).index_file("index.html")
 // }
@@ -72,10 +49,6 @@ pub async fn route_frontend_version(data: web::Data<FrontendState>) -> Result<ac
 //         Path::new(&data.frontend_folder).join("index.html"),
 //     )?)
 // }
-
-
-
-
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -99,10 +72,10 @@ async fn main() -> std::io::Result<()> {
     // Setup OpenSSL
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
     builder
-        .set_private_key_file("/etc/letsencrypt/live/solangpg.ddnsfree.com/privkey.pem", SslFiletype::PEM)
+        .set_private_key_file("/home/ahmadsameh/privkey1.pem", SslFiletype::PEM)
         .unwrap();
     builder
-        .set_certificate_chain_file("/etc/letsencrypt/live/solangpg.ddnsfree.com/fullchain.pem")
+        .set_certificate_chain_file("/home/ahmadsameh/fullchain.pem")
         .unwrap();
 
     HttpServer::new(move || {
