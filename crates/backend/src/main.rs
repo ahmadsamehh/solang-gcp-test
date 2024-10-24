@@ -77,6 +77,7 @@ async fn main() -> std::io::Result<()> {
     builder
         .set_certificate_chain_file("/home/ahmadsameh/fullchain.pem")
         .unwrap();
+    builder.set_options(openssl::ssl::SslOptions::NO_TLSV1 | openssl::ssl::SslOptions::NO_TLSV1_1);
 
     HttpServer::new(move || {
         let opts: Opts = opts.clone();
@@ -89,6 +90,7 @@ async fn main() -> std::io::Result<()> {
             .allowed_methods(vec!["GET", "POST", "OPTIONS"])
             .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
             .allow_any_header()
+            .max_age(3600)
             .supports_credentials();
 
         let mut app = App::new()
