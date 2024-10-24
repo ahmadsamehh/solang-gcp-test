@@ -86,7 +86,8 @@ async fn main() -> std::io::Result<()> {
         //ahmads edit
         // Configure CORS
         let cors = Cors::default()
-            .allowed_origin("https://solangpg.ddnsfree.com") // Replace with your frontend's URL
+            //.allowed_origin("https://solangpg.ddnsfree.com")
+            .allow_any_origin() // Replace with your frontend's URL
             .allowed_methods(vec!["GET", "POST", "OPTIONS"])
             .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
             .allow_any_header()
