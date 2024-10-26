@@ -86,7 +86,11 @@ async fn main() -> std::io::Result<()> {
         let cors = Cors::default()
             .allowed_origin("https://solangpg.ddnsfree.com") // Replace with your frontend's URL
             .allowed_methods(vec!["GET", "POST", "OPTIONS"])
-            .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE])
+            .allowed_headers(vec![actix_web::http::header::CONTENT_TYPE,
+                //newly added
+                actix_web::http::header::AUTHORIZATION,
+                actix_web::http::header::ORIGIN,
+                actix_web::http::header::ACCEPT,])
             .allow_any_header()
             .max_age(3600)
             .supports_credentials();
@@ -122,7 +126,8 @@ async fn main() -> std::io::Result<()> {
 
         app
     })
-    .bind(format!("{}:{}", &host, &port))?
+    // .bind(format!("{}:{}", &host, &port))?
+    .bind(format!("{}:{}"), "127.0.0.1","9000"),
     .run()
     .await?;
 
