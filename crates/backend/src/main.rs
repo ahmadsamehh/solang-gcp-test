@@ -127,7 +127,7 @@ async fn main() -> std::io::Result<()> {
         app
     })
     // .bind(format!("{}:{}", &host, &port))?
-    .bind(format!("{}:{}"), "127.0.0.1","9000"),
+    .bind(format!("{}:{}", "127.0.0.1", "9000"))?
     .run()
     .await?;
 
