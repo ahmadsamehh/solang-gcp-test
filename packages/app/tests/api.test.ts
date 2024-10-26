@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const BACKEND_URL = 'http://localhost:9000';
+const BACKEND_URL = 'https://localhost:9000';
 
 jest.setTimeout(30000);
 
